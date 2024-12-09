@@ -68,5 +68,5 @@ void SRVManager::PreDraw() {
 
 void SRVManager::SetGraphicsRootDescriptorTable(UINT RootParameterIndex, uint32_t srvIndex) {
 
-	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(RootParameterIndex, GetCPUDescriptorHandle(srvIndex));
+	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(RootParameterIndex, GetGPUDescriptorHandle(srvIndex));
 }
