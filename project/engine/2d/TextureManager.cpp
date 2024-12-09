@@ -82,17 +82,6 @@ void TextureManager::LoadTexture(const std::string& filePath) {
 
 	textureData.srvHandleCPU = dxCommon_->GetSRVCPUDescriptorHandle(srvIndex);
 	textureData.srvHandleGPU = dxCommon_->GetSRVGPUDescriptorHandle(srvIndex);
-
-	/// === SRVの生成 === ///
-
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	// SRVの設定を行う
-	srvDesc.Format = textureData.metaData.format;
-	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D; // 2Dテクスチャ
-	srvDesc.Texture2D.MipLevels = UINT(textureData.metaData.mipLevels);
-	// 設定を元にSRVの生成
-	dxCommon_->GetDevice()->CreateShaderResourceView(textureData.resource.Get(), &srvDesc, textureData.srvHandleCPU);
 }
 
 uint32_t TextureManager::GetTextureIndexByFilePath(const std::string& filePath) {

@@ -91,6 +91,9 @@
     <ClCompile Include="engine\audio\AudioManager.cpp">
       <Filter>Engine\audio</Filter>
     </ClCompile>
+    <ClCompile Include="engine\base\SRVManager.cpp">
+      <Filter>Engine\base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\3d\Camera.h">
@@ -161,6 +164,9 @@
     </ClInclude>
     <ClInclude Include="engine\audio\AudioManager.h">
       <Filter>Engine\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\base\SRVManager.h">
+      <Filter>Engine\base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
