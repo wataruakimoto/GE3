@@ -4,10 +4,11 @@
 using namespace Microsoft::WRL;
 using namespace Logger;
 
-void Object3dCommon::Initialize(DirectXCommon* dxCommon) {
+void Object3dCommon::Initialize(DirectXCommon* dxCommon, SRVManager* srvManager) {
 
 	// 引数をメンバ変数に代入
 	dxCommon_ = dxCommon;
+	srvManager_ = srvManager;
 
 	// グラフィックスパイプラインの生成
 	CreateGraphicsPipeline();
@@ -24,8 +25,7 @@ void Object3dCommon::SettingCommonDrawing() {
 	/// === プリミティブトポロジーをセットするコマンド === ///
 	dxCommon_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	ID3D12DescriptorHeap* descriptorHeaps[] = { dxCommon_->GetSRVDescriptorHeap().Get() };
-	dxCommon_->GetCommandList()->SetDescriptorHeaps(1, descriptorHeaps);
+	srvManager_->PreDraw();
 }
 
 void Object3dCommon::CreateRootSignature() {

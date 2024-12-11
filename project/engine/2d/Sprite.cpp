@@ -10,6 +10,7 @@ void Sprite::Initialize(SpriteCommon* spriteCommon, std::string textureFilePath)
 
 	// 引数をメンバ変数に代入
 	this->spriteCommon_ = spriteCommon;
+	filePath = textureFilePath;
 
 	InitializeVertexData();
 
@@ -47,7 +48,7 @@ void Sprite::Update() {
 
 	/// === テクスチャ範囲反映 === ///
 
-	const DirectX::TexMetadata& metadata = TextureManager::GetInstance()->GetMetadata(textureIndex);
+	const DirectX::TexMetadata& metadata = TextureManager::GetInstance()->GetMetadata(filePath);
 
 	float texLeft = textureLeftTop.x / metadata.width;
 	float texRight = (textureLeftTop.x + textureSize.x) / metadata.width;
@@ -108,7 +109,7 @@ void Sprite::Draw() {
 	spriteCommon_->GetDxCommon()->GetCommandList()->SetGraphicsRootConstantBufferView(1, materialResource->GetGPUVirtualAddress());
 
 	/// === SRVのDescriptorTableの先頭を設定 === ///
-	spriteCommon_->GetDxCommon()->GetCommandList()->SetGraphicsRootDescriptorTable(2, TextureManager::GetInstance()->GetSRVGPUHandle(textureIndex));
+	spriteCommon_->GetDxCommon()->GetCommandList()->SetGraphicsRootDescriptorTable(2, TextureManager::GetInstance()->GetSRVGPUHandle(filePath));
 
 	/// === 描画(DrawCall) === ///
 	spriteCommon_->GetDxCommon()->GetCommandList()->DrawIndexedInstanced(6, 1, 0, 0, 0);
@@ -173,7 +174,7 @@ void Sprite::InitializeMaterialData() {
 
 void Sprite::AdjustTextureSize() {
 
-	const DirectX::TexMetadata& metadata = TextureManager::GetInstance()->GetMetadata(textureIndex);
+	const DirectX::TexMetadata& metadata = TextureManager::GetInstance()->GetMetadata(filePath);
 
 	textureSize.x = static_cast<float>(metadata.width);
 	textureSize.y = static_cast<float>(metadata.height);

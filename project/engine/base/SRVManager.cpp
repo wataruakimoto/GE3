@@ -1,5 +1,4 @@
 #include "SRVManager.h"
-#include "DirectXCommon.h"
 
 const uint32_t SRVManager::kMaxCount = 512;
 
@@ -11,7 +10,6 @@ void SRVManager::Initialize(DirectXCommon* dxCommon) {
 	// ----------SRV用のDescriptorHeap生成----------
 	// SRV用のヒープでディスクリプタの数は128。SRVはShader内で触るものなので、ShaderVisibleはtrue
 	descriptorHeap = dxCommon->CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, kMaxCount, true);
-
 
 	// ----------SRV用のDescriptorSizeを取得----------
 	descriptorSize = dxCommon->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
@@ -69,4 +67,18 @@ void SRVManager::PreDraw() {
 void SRVManager::SetGraphicsRootDescriptorTable(UINT RootParameterIndex, uint32_t srvIndex) {
 
 	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(RootParameterIndex, GetGPUDescriptorHandle(srvIndex));
+}
+
+bool SRVManager::CheckAllocatable() {
+
+	// 上限に達していなかったら
+	if (useIndex < kMaxCount) {
+
+		return true;
+
+	// そうでなければ
+	} else {
+
+		return false;
+	}
 }

@@ -253,4 +253,7 @@ private:
 
 	// テクスチャ切り出しサイズ
 	Vector2 textureSize = { 0.0f,0.0f };
+
+	// ファイルパス
+	std::string filePath;
 };

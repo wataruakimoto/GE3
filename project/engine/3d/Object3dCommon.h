@@ -1,5 +1,6 @@
 #pragma once
 #include "base/DirectXCommon.h"
+#include "base/SRVManager.h"
 
 /// === カメラ === ///
 class Camera;
@@ -15,7 +16,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(DirectXCommon* dxCommon);
+	void Initialize(DirectXCommon* dxCommon, SRVManager* srvManager);
 
 	/// <summary>
 	/// 共通描画設定
@@ -102,6 +103,9 @@ private:
 
 	// DirectXCommonのポインタ
 	DirectXCommon* dxCommon_;
+
+	// SRVManagerのポインタ
+	SRVManager* srvManager_;
 
 	// RootSignature
 	Microsoft::WRL::ComPtr <ID3D12RootSignature> rootSignature = nullptr;

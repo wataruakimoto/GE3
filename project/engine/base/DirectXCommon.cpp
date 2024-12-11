@@ -86,8 +86,8 @@ void DirectXCommon::PreDraw() {
 	commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
 	// ----------SRV用のデスクリプタヒープを指定する----------
-	D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU = GetCPUDescriptorHandle(srvDescriptorHeap, srvDescriptorSize, 1);
-	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU = GetGPUDescriptorHandle(srvDescriptorHeap, srvDescriptorSize, 1);
+	//D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU = GetCPUDescriptorHandle(srvDescriptorHeap, srvDescriptorSize, 1);
+	//D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU = GetGPUDescriptorHandle(srvDescriptorHeap, srvDescriptorSize, 1);
 
 	// ----------ビューポート領域の設定----------
 	commandList->RSSetViewports(1, &viewport);

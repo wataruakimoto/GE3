@@ -1,6 +1,7 @@
 #include "input/Input.h"
 #include "winApp/WinApp.h"
 #include "base/DirectXCommon.h"
+#include "base/SRVManager.h"
 #include "debug/D3DResourceLeakChecker.h"
 #include "debug/Logger.h"
 #include "debug/ImGuiManager.h"
@@ -37,6 +38,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// DirectX基盤のポインタ
 	DirectXCommon* dxCommon = nullptr;
 
+	// SRV管理クラスのポインタ
+	SRVManager* srvManager = nullptr;
+
 	// ImGui管理クラスのポインタ
 	ImGuiManager* imGuiManager = nullptr;
 
@@ -67,6 +71,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	dxCommon = new DirectXCommon();
 	dxCommon->Initialize(winApp);
 
+	// SRV管理の初期化
+	srvManager = new SRVManager();
+	srvManager->Initialize(dxCommon);
+
 	/// ----------汎用機能初期化----------
 
 	// ImGuiの初期化
@@ -82,11 +90,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// スプライト共通部初期化
 	spriteCommon = new SpriteCommon();
-	spriteCommon->Initialize(dxCommon);
+	spriteCommon->Initialize(dxCommon, srvManager);
 
 	// 3Dオブジェクト共通部初期化
 	object3dCommon = new Object3dCommon();
-	object3dCommon->Initialize(dxCommon);
+	object3dCommon->Initialize(dxCommon, srvManager);
 	object3dCommon->SetDefaultCamera(camera);
 
 	// モデル基盤初期化
@@ -94,7 +102,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	modelCommon->Initialize(dxCommon);
 
 	// テクスチャマネージャ初期化
-	TextureManager::GetInstance()->Initialize(dxCommon);
+	TextureManager::GetInstance()->Initialize(dxCommon, srvManager);
 
 	TextureManager::GetInstance()->LoadTexture("resources/uvChecker.png");
 	TextureManager::GetInstance()->LoadTexture("resources/monsterBall.png");
@@ -354,6 +362,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	delete imGuiManager;
 
 	/// ----------DirectXの解放----------
+
+	//delete srvManager;
+
 	delete dxCommon;
 
 	/// ----------ゲームウィンドウ解放----------

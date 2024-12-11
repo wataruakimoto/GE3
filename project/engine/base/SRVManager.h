@@ -1,6 +1,6 @@
 #pragma once
 
-class DirectXCommon;
+#include "DirectXCommon.h"
 
 /// === SRV管理 === ///
 class SRVManager {
@@ -13,9 +13,6 @@ private:
 	// DirectXCommonのポインタ
 	DirectXCommon* dxCommon = nullptr;
 
-	// 最大SRV枚数(最大テクスチャ枚数)
-	static const uint32_t kMaxCount;
-
 	// SRV用デスクリプタサイズ
 	uint32_t descriptorSize;
 
@@ -24,6 +21,14 @@ private:
 
 	// 次に使用するSRVインデックス
 	uint32_t useIndex = 0;
+
+///-------------------------------------------/// 
+/// 定数
+///-------------------------------------------///
+public:
+
+	// 最大SRV枚数(最大テクスチャ枚数)
+	static const uint32_t kMaxCount;
 
 ///-------------------------------------------/// 
 /// メンバ関数
@@ -65,6 +70,15 @@ public:
 	void CreateSRVforTexture(uint32_t srvIndex, ID3D12Resource* pResource, DXGI_FORMAT Format, UINT MIpLevels);
 
 	/// <summary>
+	/// StructuredBuffer用のSRV作成
+	/// </summary>
+	/// <param name="srvIndex"></param>
+	/// <param name="pResource"></param>
+	/// <param name="numElements"></param>
+	/// <param name="structureByteStride"></param>
+	void CreateSRVforStructuredBuffer(uint32_t srvIndex, ID3D12Resource* pResource, UINT numElements, UINT structureByteStride);
+
+	/// <summary>
 	/// 描画前処理
 	/// </summary>
 	void PreDraw();
@@ -75,4 +89,10 @@ public:
 	/// <param name="RootParameterIndex"></param>
 	/// <param name="srvIndex"></param>
 	void SetGraphicsRootDescriptorTable(UINT RootParameterIndex, uint32_t srvIndex);
+
+	/// <summary>
+	/// 確保可能かチェック
+	/// </summary>
+	/// <returns>bool</returns>
+	bool CheckAllocatable();
 };

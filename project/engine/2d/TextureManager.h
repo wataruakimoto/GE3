@@ -1,5 +1,7 @@
 #pragma once
 #include "base/DirectXCommon.h"
+#include "base/SRVManager.h"
+#include <unordered_map>
 
 /// === テクスチャマネージャ === ///
 class TextureManager {
@@ -35,7 +37,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(DirectXCommon* dxCommon);
+	void Initialize(DirectXCommon* dxCommon, SRVManager* srvManager);
 
 	/// <summary>
 	/// 終了
@@ -60,14 +62,14 @@ public:
 	/// </summary>
 	/// <param name="textureIndex">テクスチャ番号</param>
 	/// <returns></returns>
-	D3D12_GPU_DESCRIPTOR_HANDLE GetSRVGPUHandle(uint32_t textureIndex);
+	D3D12_GPU_DESCRIPTOR_HANDLE GetSRVGPUHandle(const std::string& filePath);
 
 	/// <summary>
 	/// メタデータを取得
 	/// </summary>
 	/// <param name="textureIndex">テクスチャ番号</param>
 	/// <returns></returns>
-	const DirectX::TexMetadata& GetMetadata(uint32_t textureIndex);
+	const DirectX::TexMetadata& GetMetadata(const std::string& filePath);
 
 ///=====================================================/// 
 /// 構造体
@@ -76,9 +78,9 @@ public:
 
 	// テクスチャ1枚分のデータ
 	struct TextureData {
-		std::string filePath;
 		DirectX::TexMetadata metaData;
 		Microsoft::WRL::ComPtr<ID3D12Resource> resource;
+		uint32_t srvIndex;
 		D3D12_CPU_DESCRIPTOR_HANDLE srvHandleCPU;
 		D3D12_GPU_DESCRIPTOR_HANDLE srvHandleGPU;
 	};
@@ -91,8 +93,11 @@ private:
 	// DirectXCommonのポインタ
 	DirectXCommon* dxCommon_;
 
+	// SRVManagerのポインタ
+	SRVManager* srvManager_;
+
 	// テクスチャデータ
-	std::vector<TextureData> textureDatas;
+	std::unordered_map<std::string, TextureData> textureDatas;
 
 	// SRVインデックスの開始番号
 	static uint32_t kSRVIndexTop;
