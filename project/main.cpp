@@ -365,6 +365,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	//delete srvManager;
 
+	dxCommon->Finalize();
 	delete dxCommon;
 
 	/// ----------ゲームウィンドウ解放----------
