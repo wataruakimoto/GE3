@@ -93,6 +93,28 @@ private:
 	void InitializeMaterialData();
 
 ///=====================================================/// 
+/// セッター
+///=====================================================///
+public:
+
+	void SetColor(const Vector4& color) { this->materialData->color = color; }
+
+	void SetEnableLighting(const bool& enableLighting) { this->materialData->enableLighting = enableLighting; }
+
+	void SetShininess(const float& shininess) { this->materialData->shininess = shininess; }
+
+///=====================================================/// 
+/// ゲッター
+///=====================================================///
+public:
+
+	const Vector4& GetColor() const { return materialData->color; }
+
+	const bool& GetEnableLighting() const { return materialData->enableLighting; }
+
+	const float& GetShininess() const { return materialData->shininess; }
+
+///=====================================================/// 
 /// メンバ変数
 ///=====================================================///
 private:

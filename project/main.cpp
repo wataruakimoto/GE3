@@ -266,6 +266,36 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				object3d->SetModel(model);
 			}
 
+			// 色の設定の確認
+			Vector4 modelColor = model->GetColor();
+			ImGui::ColorEdit4("Color", &modelColor.x);
+			model->SetColor(modelColor);
+
+			// ライティングを行うかどうか
+			bool enableLighting = model->GetEnableLighting();
+			ImGui::Checkbox("EnableLighting", &enableLighting);
+			model->SetEnableLighting(enableLighting);
+
+			// 光沢度の設定の確認
+			float lightShininess = model->GetShininess();
+			ImGui::DragFloat("Shininess", &lightShininess, 0.1f);
+			model->SetShininess(lightShininess);
+
+			// ライトの色の変更の確認
+			Vector4 lightColor = object3d->GetLightColor();
+			ImGui::ColorEdit4("LightColor", &lightColor.x);
+			object3d->SetLightColor(lightColor);
+
+			// ライトの向きの変更の確認
+			Vector3 lightDirection = object3d->GetLightDirection();
+			ImGui::DragFloat3("Direction", &lightDirection.x, 0.1f);
+			object3d->SetLightDirection(lightDirection);
+
+			// ライトの輝度の変更の確認
+			float lightIntensity = object3d->GetLightIntensity();
+			ImGui::DragFloat("Intensity", &lightIntensity, 0.1f);
+			object3d->SetLightIntensity(lightIntensity);
+
 			ImGui::End();
 
 			/// === ImGui終了 === ///

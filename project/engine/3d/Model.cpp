@@ -193,5 +193,5 @@ void Model::InitializeMaterialData() {
 	materialData->color = Vector4(1.0f, 1.0f, 1.0f, 1.0f); // 今は白を書き込んでいる
 	materialData->enableLighting = true; // Lightingをする
 	materialData->uvTransform = MakeIdentity4x4(); // 単位行列で初期化
-	materialData->shininess = 0.01f;
+	materialData->shininess = 70.0f;
 }

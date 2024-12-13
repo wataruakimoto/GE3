@@ -126,6 +126,24 @@ public:
 	/// <param name="camera">カメラ</param>
 	void SetCamera(Camera* camera) { this->camera = camera; }
 
+	/// <summary>
+	/// ライトの色のセッター
+	/// </summary>
+	/// <param name="color"></param>
+	void SetLightColor(const Vector4& color) { this->directionalLightData->color = color; }
+
+	/// <summary>
+	/// ライトの向きのセッター
+	/// </summary>
+	/// <param name="direction"></param>
+	void SetLightDirection(const Vector3& direction) { this->directionalLightData->direction = direction; }
+
+	/// <summary>
+	/// ライトの輝度のセッター
+	/// </summary>
+	/// <param name="intensity"></param>
+	void SetLightIntensity(const float& intensity) { this->directionalLightData->intensity = intensity; }
+
 ///=====================================================/// 
 /// ゲッター
 ///=====================================================///
@@ -148,6 +166,24 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	const Vector3& GetTranslate() const { return transform.translate; }
+
+	/// <summary>
+	/// ライトの色のゲッター
+	/// </summary>
+	/// <returns></returns>
+	const Vector4& GetLightColor() const { return directionalLightData->color; }
+
+	/// <summary>
+	/// ライトの向きのゲッター
+	/// </summary>
+	/// <returns></returns>
+	const Vector3& GetLightDirection() const { return directionalLightData->direction; }
+
+	/// <summary>
+	/// ライトの輝度のゲッター
+	/// </summary>
+	/// <returns></returns>
+	const float& GetLightIntensity() const { return directionalLightData->intensity; }
 
 ///=====================================================/// 
 /// メンバ変数
