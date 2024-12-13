@@ -5,18 +5,26 @@ struct Material
     float4 color;
     int enableLighting;
     float4x4 uvTransform;
+    float shininess;
 };
 
 struct DirectionalLight
 {
-    float4 color; // !< ƒ‰ƒCƒg‚ÌF
-    float3 direction; // !< ƒ‰ƒCƒg‚ÌŒü‚«
-    float intensity; // !< ‹P“x
+    float4 color; // !< ãƒ©ã‚¤ãƒˆã®è‰²
+    float3 direction; // !< ãƒ©ã‚¤ãƒˆã®å‘ã
+    float intensity; // !< è¼åº¦
+};
+
+struct Camera
+{
+    float3 worldPosition;
 };
 
 ConstantBuffer<Material> gMaterial : register(b0);
 
 ConstantBuffer<DirectionalLight> gDirectionalLight : register(b1);
+
+ConstantBuffer<Camera> gCamera : register(b2);
 
 Texture2D<float4> gTexture : register(t0);
 SamplerState gSampler : register(s0);
@@ -33,14 +41,26 @@ PixelShaderOutput main(VertexShaderOutput input)
     
     PixelShaderOutput output;
     
-    if (gMaterial.enableLighting != 0) { // Lighting‚·‚éê‡
+    if (gMaterial.enableLighting != 0) { // Lightingã™ã‚‹å ´åˆ
         
-        // harf lambert
         float NdotL = dot(normalize(input.normal), -gDirectionalLight.direction);
         float cos = pow(NdotL * 0.5f + 0.5f, 2.0f);
-        output.color = gMaterial.color * textureColor * gDirectionalLight.color * cos * gDirectionalLight.intensity;
         
-    } else { // Lighting‚µ‚È‚¢ê‡B‘O‰ñ‚Ü‚Å‚Æ“¯‚¶‰‰Z
+        
+        float3 toEye = normalize(gCamera.worldPosition - input.worldPosition);
+        float3 reflectLight = reflect(gDirectionalLight.direction, normalize(input.normal));
+        float RdotE = dot(reflectLight, toEye);
+        float specularPow = pow(saturate(RdotE), gMaterial.shininess); // åå°„å¼·åº¦
+        // æ‹¡æ•£åå°„
+        float3 diffuse = gMaterial.color.rgb * gDirectionalLight.color.rgb * cos * gDirectionalLight.intensity;
+        // é¡é¢åå°„
+        float3 specular = gDirectionalLight.color.rgb * gDirectionalLight.intensity * specularPow * float3(1.0f, 1.0f, 1.0f);
+        // æ‹¡æ•£åå°„+é¡é¢åå°„
+        output.color.rgb = diffuse + specular;
+        // ã‚¢ãƒ«ãƒ•ã‚¡ã¯ä»Šã¾ã§é€šã‚Š
+        output.color.a = gMaterial.color.a * textureColor.a;
+        
+    } else { // Lightingã—ãªã„å ´åˆ
         
         output.color = gMaterial.color * textureColor;
     }

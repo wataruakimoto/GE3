@@ -15,15 +15,17 @@ void Object3d::Initialize(Object3dCommon* object3dCommon){
 	// 引数をメンバ変数に代入
 	this->object3dCommon_ = object3dCommon;
 
+	// デフォルトカメラをセット
+	this->camera = object3dCommon->GetDefaultCamera();
+
 	InitializeTransformationMatrixData();
 
 	InitializeDirectionalLightData();
 
+	InitializeCameraData();
+
 	// Transform変数を作る
 	transform = { {1.0f,1.0f,1.0f},{0.0f,3.14f,0.0f},{0.0f,0.0f,0.0f} };
-
-	// デフォルトカメラをセット
-	this->camera = object3dCommon->GetDefaultCamera();
 }
 
 void Object3d::Update(){
@@ -49,6 +51,8 @@ void Object3d::Update(){
 
 	transformationMatrixData->WVP = worldViewProjectionMatrix;
 	transformationMatrixData->world = worldMatrix;
+
+	cameraData = camera->GetTranslate();
 }
 
 void Object3d::Draw(){
@@ -58,6 +62,9 @@ void Object3d::Draw(){
 
 	/// === 平行光源CBufferの場所を設定=== ///
 	object3dCommon_->GetDxCommon()->GetCommandList()->SetGraphicsRootConstantBufferView(3, directionalLightResource->GetGPUVirtualAddress());
+
+	/// === カメラCBufferの場所を設定=== ///
+	object3dCommon_->GetDxCommon()->GetCommandList()->SetGraphicsRootConstantBufferView(4, cameraResource->GetGPUVirtualAddress());
 
 	// 3Dモデルが割り当てられていれば描画する
 	if (model) {
@@ -90,6 +97,18 @@ void Object3d::InitializeDirectionalLightData() {
 	directionalLightData->color = { 1.0f, 1.0f, 1.0f, 1.0f }; // 白を書き込む
 	directionalLightData->direction = { 0.0f, -1.0f, 0.0f }; // 向きは下から
 	directionalLightData->intensity = 1.0f; // 輝度は最大
+}
+
+void Object3d::InitializeCameraData() {
+
+	/// === CameraResource === ///
+	cameraResource = object3dCommon_->GetDxCommon()->CreateBufferResource(sizeof(Vector3));
+
+	/// === CameraResourceにデータを書き込むためのアドレスを取得してCameraDataに割り当てる === ///
+	cameraResource->Map(0, nullptr, reinterpret_cast<void**>(&cameraData));
+
+	/// === CameraDataの初期値を書き込む === ///
+	cameraData = camera->GetTranslate();
 }
 
 void Object3d::SetModel(const std::string& filePath) {

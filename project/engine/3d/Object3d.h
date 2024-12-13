@@ -31,14 +31,6 @@ public:
 		Matrix4x4 world;
 	};
 
-	// マテリアルデータ
-	struct Material {
-		Vector4 color;
-		bool enableLighting;
-		float padding[3];
-		Matrix4x4 uvTransform;
-	};
-
 	// 平行光源データ
 	struct DirectionalLight {
 		Vector4 color; // !< ライトの色
@@ -87,6 +79,11 @@ private:
 	/// 平行光源データ初期化
 	/// </summary>
 	void InitializeDirectionalLightData();
+
+	/// <summary>
+	/// カメラデータ初期化
+	/// </summary>
+	void InitializeCameraData();
 
 ///=====================================================/// 
 /// セッター
@@ -164,11 +161,15 @@ private:
 	Microsoft::WRL::ComPtr <ID3D12Resource> transformationMatrixResource;
 	// 平行光源リソース
 	Microsoft::WRL::ComPtr <ID3D12Resource> directionalLightResource;
+	// カメラリソース
+	Microsoft::WRL::ComPtr <ID3D12Resource> cameraResource;
 
 	// 座標変換行列データ
 	TransformationMatrix* transformationMatrixData = nullptr;
 	// 平行光源データ
 	DirectionalLight* directionalLightData = nullptr;
+	// カメラデータ
+	Vector3 cameraData;
 
 	Transform transform;
 

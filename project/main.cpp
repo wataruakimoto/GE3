@@ -117,7 +117,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// モデルの生成・初期化
 	Model* model = new Model();
-	model->Initialize(modelCommon, "resources", "plane.obj");
+	model->Initialize(modelCommon, "resources", "sphere.obj");
 
 	// 3Dオブジェクトの生成・初期化
 	Object3d* object3d = new Object3d();
@@ -125,6 +125,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	object3d->SetModel(model);
 
 	bool useModelManager = true;
+	bool useLight = false;
 
 	///
 	/// 初期化処終了
