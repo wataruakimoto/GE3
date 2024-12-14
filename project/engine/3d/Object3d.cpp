@@ -7,6 +7,7 @@
 #include "2d/TextureManager.h"
 #include "ModelManager.h"
 #include "Camera.h"
+#include "imgui.h"
 
 using namespace MathMatrix;
 
@@ -25,7 +26,7 @@ void Object3d::Initialize(Object3dCommon* object3dCommon){
 	InitializeCameraData();
 
 	// Transform変数を作る
-	transform = { {1.0f,1.0f,1.0f},{0.0f,3.14f,0.0f},{0.0f,0.0f,0.0f} };
+	transform = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 }
 
 void Object3d::Update(){
@@ -42,6 +43,7 @@ void Object3d::Update(){
 		const Matrix4x4& viewProjectionMatrix = camera->GetViewProjectionMatrix();
 		worldViewProjectionMatrix = worldMatrix * viewProjectionMatrix;
 
+		cameraData = camera->GetTranslate();
 
 	// カメラがなければworldMatrixを代入
 	} else {
@@ -51,8 +53,6 @@ void Object3d::Update(){
 
 	transformationMatrixData->WVP = worldViewProjectionMatrix;
 	transformationMatrixData->world = worldMatrix;
-
-	cameraData = camera->GetTranslate();
 }
 
 void Object3d::Draw(){

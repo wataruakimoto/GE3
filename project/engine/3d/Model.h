@@ -27,7 +27,7 @@ public:
 	// マテリアルデータ
 	struct Material {
 		Vector4 color;
-		bool enableLighting;
+		int enableLighting;
 		float padding[3];
 		Matrix4x4 uvTransform;
 		float shininess;
@@ -99,7 +99,7 @@ public:
 
 	void SetColor(const Vector4& color) { this->materialData->color = color; }
 
-	void SetEnableLighting(const bool& enableLighting) { this->materialData->enableLighting = enableLighting; }
+	void SetEnableLighting(const int& enableLighting) { this->materialData->enableLighting = enableLighting; }
 
 	void SetShininess(const float& shininess) { this->materialData->shininess = shininess; }
 
@@ -110,7 +110,7 @@ public:
 
 	const Vector4& GetColor() const { return materialData->color; }
 
-	const bool& GetEnableLighting() const { return materialData->enableLighting; }
+	const int& GetEnableLighting() const { return materialData->enableLighting; }
 
 	const float& GetShininess() const { return materialData->shininess; }
 

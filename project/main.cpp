@@ -272,8 +272,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			model->SetColor(modelColor);
 
 			// ライティングを行うかどうか
-			bool enableLighting = model->GetEnableLighting();
-			ImGui::Checkbox("EnableLighting", &enableLighting);
+			int enableLighting = model->GetEnableLighting();
+			ImGui::Combo("EnableLighting", &enableLighting, "None\0Lambertian Reflection\0Harf Lambert\0Specular\0");
 			model->SetEnableLighting(enableLighting);
 
 			// 光沢度の設定の確認
@@ -288,7 +288,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			// ライトの向きの変更の確認
 			Vector3 lightDirection = object3d->GetLightDirection();
-			ImGui::DragFloat3("Direction", &lightDirection.x, 0.1f);
+			ImGui::DragFloat3("Direction", &lightDirection.x, 0.01f, -1.0f, 1.0f);
 			object3d->SetLightDirection(lightDirection);
 
 			// ライトの輝度の変更の確認
