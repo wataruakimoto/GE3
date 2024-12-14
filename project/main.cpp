@@ -124,7 +124,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	object3d->Initialize(object3dCommon);
 	object3d->SetModel(model);
 
-	bool useModelManager = true;
+	bool useModelManager = false;
 	bool useLight = false;
 
 	///
