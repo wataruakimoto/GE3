@@ -273,7 +273,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			// ライティングを行うかどうか
 			int enableLighting = model->GetEnableLighting();
-			ImGui::Combo("EnableLighting", &enableLighting, "None\0Lambertian Reflection\0Harf Lambert\0Specular\0");
+			ImGui::Combo("EnableLighting", &enableLighting, "None\0Lambertian Reflection\0Harf Lambert\0Phong Reflection Model\0");
 			model->SetEnableLighting(enableLighting);
 
 			// 光沢度の設定の確認

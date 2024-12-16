@@ -56,7 +56,8 @@ PixelShaderOutput main(VertexShaderOutput input)
         output.color = gMaterial.color * textureColor * gDirectionalLight.color * cos * gDirectionalLight.intensity;
     }
     else if (gMaterial.enableLighting == 3)
-    { 
+    { // Phong Reflection Model
+        
         // 拡散反射の計算
         float NdotL = dot(normalize(input.normal), -gDirectionalLight.direction);
         float cos = pow(NdotL * 0.5f + 0.5f, 2.0f);
@@ -68,13 +69,13 @@ PixelShaderOutput main(VertexShaderOutput input)
         float specularPow = pow(saturate(RdotE), gMaterial.shininess); // 反射強度
         
         // 拡散反射
-        float3 diffuse = gMaterial.color.rgb * gDirectionalLight.color.rgb * cos * gDirectionalLight.intensity;
+        float3 diffuse = gMaterial.color.rgb * textureColor.rgb * gDirectionalLight.color.rgb * cos * gDirectionalLight.intensity;
         // 鏡面反射
         float3 specular = gDirectionalLight.color.rgb * gDirectionalLight.intensity * specularPow * float3(1.0f, 1.0f, 1.0f);
         
         
         // 拡散反射と鏡面反射の合成
-        output.color.rgb = (diffuse + specular) * textureColor.rgb;
+        output.color.rgb = diffuse + specular;
         output.color.a = gMaterial.color.a * textureColor.a;
         
     } else { // Lightingしない場合
