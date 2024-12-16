@@ -1,7 +1,8 @@
 #pragma once
 
+#include "Framework.h"
+
 #include "input/Input.h"
-#include "winApp/WinApp.h"
 #include "base/DirectXCommon.h"
 #include "debug/ImGuiManager.h"
 #include "2d/Sprite.h"
@@ -13,7 +14,7 @@
 #include "3d/Camera.h"
 
 /// === ゲーム関連 === ///
-class MyGame {
+class MyGame : public Framework {
 
 ///-------------------------------------------/// 
 /// メンバ関数
@@ -21,44 +22,32 @@ class MyGame {
 public:
 
 	/// <summary>
-	/// 初期化
+	/// 初期化(継承)
 	/// </summary>
-	void Initialize();
+	void Initialize() override;
 
 	/// <summary>
-	/// 更新
+	/// 更新(継承)
 	/// </summary>
-	void Update();
+	void Update() override;
 
 	/// <summary>
-	/// 描画
+	/// 描画(継承)
 	/// </summary>
-	void Draw();
+	void Draw() override;
 
 	/// <summary>
-	/// 終了
+	/// 終了(継承)
 	/// </summary>
-	void Finalize();
-
-	/// <summary>
-	/// 終了フラグのチェック
-	/// </summary>
-	/// <returns></returns>
-	bool IsEndRequest() { return endRequest_; }
+	void Finalize() override;
 
 ///-------------------------------------------/// 
 /// メンバ変数
 ///-------------------------------------------///
 private:
 
-	// ゲーム終了フラグ
-	bool endRequest_ = false;
-
 	// 入力のポインタ
 	Input* input = nullptr;
-
-	// WindowsAPIのポインタ
-	WinApp* winApp = nullptr;
 
 	// DirectX基盤のポインタ
 	DirectXCommon* dxCommon = nullptr;

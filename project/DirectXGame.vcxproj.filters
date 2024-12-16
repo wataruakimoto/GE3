@@ -97,6 +97,9 @@
     <ClCompile Include="game\MyGame.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="game\Framework.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\3d\Camera.h">
@@ -169,6 +172,9 @@
       <Filter>Engine\audio</Filter>
     </ClInclude>
     <ClInclude Include="game\MyGame.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\Framework.h">
       <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>

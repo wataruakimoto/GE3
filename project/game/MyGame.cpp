@@ -13,14 +13,8 @@
 
 void MyGame::Initialize() {
 
-	/// === ゲームウィンドウ作成 === ///
-
-	// WindowsAPIの初期化
-	winApp = new WinApp();
-	winApp->Initialize();
-
-	// ウィンドウを表示する
-	ShowWindow(winApp->GetHwnd(), SW_SHOW);
+	// 基底クラスの初期化処理
+	Framework::Initialize();
 
 	/// === DirectX初期化 === ///
 
@@ -86,6 +80,9 @@ void MyGame::Initialize() {
 }
 
 void MyGame::Update() {
+
+	// 基底クラスの更新処理
+	Framework::Update();
 
 	/// === Windowsメッセージ処理=== ///
 
@@ -321,4 +318,7 @@ void MyGame::Finalize() {
 	///
 	/// 解放処理終了
 	///
+	
+	// 基底クラスの終了処理
+	Framework::Finalize();
 }
