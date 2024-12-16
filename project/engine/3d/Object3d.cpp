@@ -2,12 +2,12 @@
 #include "Object3dCommon.h"
 #include <cassert>
 #include <sstream>
+#include "math/MathVector.h"
 #include "math/MathMatrix.h"
 #include "winApp/WinApp.h"
 #include "2d/TextureManager.h"
 #include "ModelManager.h"
 #include "Camera.h"
-#include "imgui.h"
 
 using namespace MathMatrix;
 
@@ -43,7 +43,7 @@ void Object3d::Update(){
 		const Matrix4x4& viewProjectionMatrix = camera->GetViewProjectionMatrix();
 		worldViewProjectionMatrix = worldMatrix * viewProjectionMatrix;
 
-		cameraData = camera->GetTranslate();
+		cameraData = camera->GetWorldPosition();
 
 	// カメラがなければworldMatrixを代入
 	} else {
@@ -53,6 +53,8 @@ void Object3d::Update(){
 
 	transformationMatrixData->WVP = worldViewProjectionMatrix;
 	transformationMatrixData->world = worldMatrix;
+
+	directionalLightData->direction = Normalize(directionalLightData->direction);
 }
 
 void Object3d::Draw(){

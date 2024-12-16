@@ -64,18 +64,18 @@ PixelShaderOutput main(VertexShaderOutput input)
         
         // 鏡面反射の計算
         float3 toEye = normalize(gCamera.worldPosition - input.worldPosition);
-        float3 reflectLight = reflect(gDirectionalLight.direction, normalize(input.normal));
-        float RdotE = dot(reflectLight, toEye);
+        float3 reflectLight = reflect(-gDirectionalLight.direction, normalize(input.normal));
+        float RdotE = dot(toEye, reflectLight);
         float specularPow = pow(saturate(RdotE), gMaterial.shininess); // 反射強度
         
         // 拡散反射
         float3 diffuse = gMaterial.color.rgb * textureColor.rgb * gDirectionalLight.color.rgb * cos * gDirectionalLight.intensity;
         // 鏡面反射
-        float3 specular = gDirectionalLight.color.rgb * gDirectionalLight.intensity * specularPow * float3(1.0f, 1.0f, 1.0f);
-        
+        float3 specular = float3(1.0f, 1.0f, 1.0f) * gDirectionalLight.color.rgb * gDirectionalLight.intensity * specularPow;
         
         // 拡散反射と鏡面反射の合成
         output.color.rgb = diffuse + specular;
+        // アルファ値はテクスチャをそのまま
         output.color.a = gMaterial.color.a * textureColor.a;
         
     } else { // Lightingしない場合

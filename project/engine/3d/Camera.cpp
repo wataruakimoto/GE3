@@ -39,3 +39,12 @@ void Camera::Update() {
 	// viewMatrixとprojectionMatrixを合わせる
 	viewProjectionMatrix = viewMatrix * projectionMatrix;
 }
+
+const Vector3& Camera::GetWorldPosition() const {
+
+	static Vector3 worldPosition; // 参照を返すための静的変数
+	worldPosition.x = worldMatrix.m[3][0];
+	worldPosition.y = worldMatrix.m[3][1];
+	worldPosition.z = worldMatrix.m[3][2];
+	return worldPosition;
+}
