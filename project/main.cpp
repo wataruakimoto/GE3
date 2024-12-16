@@ -9,11 +9,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// ゲームの初期化
 	game->Initialize();
 
-	// ウィンドウの×ボタンが押されるまでループ
+	// ゲームループ
 	while (true) {
 
 		// ゲームの更新
 		game->Update();
+
+		// 終了リクエストが来たら抜ける
+		if (game->IsEndRequest()) {
+			break;
+		}
 
 		// ゲームの描画
 		game->Draw();
